@@ -1,0 +1,8 @@
+<div class="tabs">
+    <div class="tab-item" ng-click="switchFile($index)" ng-class="{'active':$index==$root.fs.currentlyOpen}"
+         ng-repeat="file in $root.fs.openFiles track by $index">
+        <span class="title">{{file.title}}</span>
+        <span ng-if="!file.saved" class="unsaved"></span>
+        <i class="fa fa-remove" ng-click="$root.fs.closeFile($index)"></i>
+    </div>
+</div>

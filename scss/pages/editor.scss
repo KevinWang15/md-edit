@@ -1,0 +1,17 @@
+.page-editor {
+  background: #eeeeee;
+  padding: 0 4px 60px 4px;
+  .editor-div, .preview-div {
+    padding: 0 !important;
+    height: 100%;
+    width: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    float: left;
+  }
+  .editor-div {
+    margin-right: -1px;
+  }
+  height: 100%;
+  overflow: hidden;
+}

@@ -1,0 +1,17 @@
+$primary-color: cornflowerblue;
+
+
+@import "misc/normalize.css";
+@import "misc/math.scss";
+@import "directives/*";
+@import "pages/*";
+@import "misc/*";
+
+
+html, body, body > div, body > div > ui-view {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+}

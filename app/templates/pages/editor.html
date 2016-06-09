@@ -1,0 +1,10 @@
+<tabs></tabs>
+<div class="page-editor">
+    <div class="editor-div">
+        <editor ng-model="$root.fs.openFiles[$root.fs.currentlyOpen].text" delegate="editorDelegate" config="editorConfig"></editor>
+    </div>
+    <div class="preview-div">
+        <preview ng-model="$root.fs.openFiles[$root.fs.currentlyOpen].html" delegate="previewDelegate" config="previewConfig"></preview>
+    </div>
+</div>
+<footer></footer>

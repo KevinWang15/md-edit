@@ -1,0 +1,25 @@
+{
+  "name": "md-edit",
+  "description": "Markdown editor with live preview, code highlight, TeX math and PDF export support",
+  "main": "index.js",
+  "authors": [
+    "Kevin Wang"
+  ],
+  "dependencies": {
+    "katex": "^0.6.0",
+    "marked": "^0.3.5",
+    "angular": "^1.5.0",
+    "angular-ui-router": "^0.2.15",
+    "normalize.css": "^3.0.3"
+  },
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

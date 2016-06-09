@@ -1,0 +1,34 @@
+.presentation-mode {
+  *::-webkit-scrollbar {
+    display: none !important;
+  }
+  .editor-div {
+    display: none !important;
+  }
+  .preview-div {
+    width: 100% !important;
+    background: white !important;
+  }
+  .preview {
+    border: none !important;
+    background: white !important;
+    border-bottom-right-radius: 0 !important;
+
+  }
+
+  .tabs {
+    display: none !important;
+  }
+
+  @media screen {
+    * {
+      overflow: scroll !important;
+    }
+  }
+
+  @media print {
+    * {
+      overflow: visible !important;
+    }
+  }
+}
