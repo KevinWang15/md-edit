@@ -1,11 +1,12 @@
 md-edit
 =======
 
-*** Still a WIP, scheduled to finish by Sep, 2016 ***
+***Still a WIP, scheduled to finish by Sep, 2016***
 
 Native-app-like cross-platform Markdown Editor based on Electron, with live preview, code highlight, TeX math and PDF export support
 
 ![Preview](img/preview.png)
+![Preview](img/preview2.png)
 
 ## Features
 1. Native-like app, open from/save to file system directly. Supports shortcuts.
