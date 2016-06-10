@@ -53,8 +53,21 @@ function setupElectron() {
                     click: MenuClicked('print')
                 },
                 {
-                    label: 'Export As PDF (online)',
-                    click: MenuClicked('pdf')
+                    label: 'Export',
+                    submenu: [
+                        {
+                            label: 'As PDF (Local)',
+                            click: MenuClicked('export_pdf')
+                        },
+                        {
+                            label: 'As PDF (Web Service)',
+                            click: MenuClicked('export_pdf_web')
+                        },
+                        // {
+                        //     label: 'As HTML',
+                        //     click: MenuClicked('export_html')
+                        // }
+                    ]
                 },
                 {
                     type: 'separator'

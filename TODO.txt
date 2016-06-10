@@ -1,6 +1,14 @@
 PDF 生成 (在线服务)
 
+PDF Table fix
+Recent Files
+-------------------
+PDF image upload (Serverside & Clientside cache. Clientside-> localStorage, cache key + file hash)
+
 ==== 暑假再做： ====
+换成ACE Editor，带MD高亮的
+Export HTML
+Export Word
 更换主题
 改进scroll sync的算法
 局部渲染
@@ -10,4 +18,3 @@ MathQuill集成
 转到行
 搜索替换
 类似stackedit的文本框替换
-干脆换成ACE Editor?

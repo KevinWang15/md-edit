@@ -7,7 +7,9 @@
   },
   "description": "Native-app-like cross-platform Markdown Editor based on Electron, with live preview, code highlight, TeX math and PDF export support",
   "main": "main.js",
-  "dependencies": {},
+  "dependencies": {
+    "request": "latest"
+  },
   "devDependencies": {
     "gulp": "latest",
     "gulp-clean-css": "^2.0.10",

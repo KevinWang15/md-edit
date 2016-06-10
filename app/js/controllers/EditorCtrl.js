@@ -1,5 +1,5 @@
 angular.module('md-edit')
-    .controller('EditorCtrl', function ($scope, $sce, FileService, $rootScope) {
+    .controller('EditorCtrl', function ($scope, $sce, FileService, $rootScope, PdfExport) {
         $scope.editorConfig = JSON.parse(localStorage['editorConfig'] || null) || {fontSize: 20};
         $scope.previewConfig = JSON.parse(localStorage['previewConfig'] || null) || {zoom: 1};
 
@@ -39,6 +39,12 @@ angular.module('md-edit')
                     } else {
                         window.print();
                     }
+                    break;
+                case 'export_pdf':
+                    PdfExport.export();
+                    break;
+                case 'export_pdf_web':
+                    PdfExport.exportWebService();
                     break;
                 case 'new':
                     FileService.newFile();

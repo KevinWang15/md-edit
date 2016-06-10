@@ -16,8 +16,12 @@
 
   }
 
-  .tabs {
+  .tabs, .footer {
     display: none !important;
+  }
+
+  .page-editor {
+    padding-bottom: 4px !important;
   }
 
   @media screen {

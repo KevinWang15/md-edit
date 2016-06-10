@@ -10,8 +10,9 @@ function createWindow() {
         win = null
     });
     win.loadURL(modalPath);
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
     win.show();
 }
 
+electron.Menu.setApplicationMenu(new electron.Menu());
 electron.app.on('ready', createWindow);
