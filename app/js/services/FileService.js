@@ -99,12 +99,13 @@ angular.module('md-edit.services')
                 path: "",
                 saved: true,
                 text: "",
+                scrollPos: 0,
                 html: $sce.trustAsHtml('')
             });
             self.currentlyOpen++;
             if (self.currentlyOpen >= self.openFiles.length)
                 self.currentlyOpen = self.openFiles.length - 1;
-            $rootScope.indicator.active = false;
+            $rootScope.$broadcast('fileSwitched');
         };
 
         this.newFile();
@@ -138,6 +139,7 @@ angular.module('md-edit.services')
                 title: getTitle(fPath),
                 path: fPath,
                 saved: true,
+                scrollPos: 0,
                 text: fs.readFileSync(fPath, {encoding: 'utf8'})
             };
 
@@ -151,8 +153,7 @@ angular.module('md-edit.services')
             }
 
             obj.html = $sce.trustAsHtml(marked(obj.text));
-            $rootScope.indicator.active = false;
-
+            $rootScope.$broadcast('fileSwitched');
             $rootScope.$broadcast('EditorScopeApply');
         };
 
@@ -219,6 +220,7 @@ angular.module('md-edit.services')
                 } else {
                     if (self.currentlyOpen >= self.openFiles.length)
                         self.currentlyOpen--;
+                    $rootScope.$broadcast('fileSwitched');
                 }
 
             });
@@ -235,7 +237,7 @@ angular.module('md-edit.services')
 
         this.switchFile = function (id) {
             self.currentlyOpen = id;
-            $rootScope.indicator.active = false;
+            $rootScope.$broadcast('fileSwitched');
         };
 
         this.switchTo = function (increment) {
@@ -248,7 +250,7 @@ angular.module('md-edit.services')
                 if (self.currentlyOpen < 0)
                     self.currentlyOpen = self.openFiles.length - 1;
             }
-            $rootScope.indicator.active = false;
+            $rootScope.$broadcast('fileSwitched');
         };
 
         this.saveFile = function (i, saveAs) {

@@ -11,6 +11,9 @@
   }
   .editor-div {
     margin-right: -1px;
+    .ace_search {
+      font-size: 10px !important;
+    }
   }
   height: 100%;
   overflow: hidden;

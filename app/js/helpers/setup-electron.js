@@ -91,12 +91,12 @@ function setupElectron() {
                 {
                     label: 'Undo',
                     accelerator: 'CmdOrCtrl+Z',
-                    role: 'undo'
+                    click: MenuClicked('undo')
                 },
                 {
                     label: 'Redo',
                     accelerator: 'Shift+CmdOrCtrl+Z',
-                    role: 'redo'
+                    click: MenuClicked('redo')
                 },
                 {
                     type: 'separator'
@@ -120,17 +120,54 @@ function setupElectron() {
                     label: 'Select All',
                     accelerator: 'CmdOrCtrl+A',
                     role: 'selectall'
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    vimMode: true,
+                    type: 'checkbox',
+                    label: 'Vim Mode',
+                    click: MenuClicked('toggle_vim')
                 }
             ]
         },
         {
             label: "View",
             submenu: [
+
                 {
+                    wordWrap: true,
+                    type: 'checkbox',
+                    label: "Word Wrap",
+                    checked: true,
+                    click: MenuClicked('toggle_word_wrap')
+                },
+                {
+                    lineNo: true,
+                    type: 'checkbox',
+                    label: "Display Line Numbers",
+                    checked: true,
+                    click: MenuClicked('toggle_line_no')
+                },
+                {
+                    scrollSync: true,
+                    type: 'checkbox',
+                    label: "Scroll Sync",
+                    checked: true,
+                    click: MenuClicked('toggle_scroll_sync')
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    checked: false,
+                    presentationMode: true,
+                    type: 'checkbox',
                     label: "Presentation Mode",
                     accelerator: 'F11',
                     click: MenuClicked('presentation_mode')
-                }
+                },
             ]
         }];
 

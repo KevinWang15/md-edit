@@ -1,10 +1,13 @@
 <tabs></tabs>
 <div class="page-editor">
     <div class="editor-div">
-        <editor ng-model="$root.fs.openFiles[$root.fs.currentlyOpen].text" delegate="editorDelegate" config="editorConfig"></editor>
+        <div style="width: 100%;height: 100%;"
+             ng-change="onAceChange()" ng-model="$root.fs.openFiles[$root.fs.currentlyOpen].text"
+             ui-ace="aceConfig"></div>
     </div>
     <div class="preview-div">
-        <preview ng-model="$root.fs.openFiles[$root.fs.currentlyOpen].html" delegate="previewDelegate" config="previewConfig"></preview>
+        <preview ng-model="$root.fs.openFiles[$root.fs.currentlyOpen].html" delegate="previewDelegate"
+                 config="previewConfig"></preview>
     </div>
 </div>
 <footer></footer>

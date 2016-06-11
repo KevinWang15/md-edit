@@ -3,7 +3,7 @@ angular.module('md-edit.services')
         const server_url = "http://139.196.50.217:13636/convert";
         var fs = require('fs');
         var request = require('request');
-        var sys = require('sys');
+        var util = require('util');
         var exec = require('child_process').exec;
 
         function getOpenCommandLine() {

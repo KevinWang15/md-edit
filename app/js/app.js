@@ -1,6 +1,6 @@
 angular.module('md-edit.components', []);
 angular.module('md-edit.services', []);
-angular.module('md-edit', ['ui.router', 'md-edit.components', 'md-edit.services']);
+angular.module('md-edit', ['ui.router', 'md-edit.components', 'md-edit.services', 'ui.ace']);
 
 angular.module('md-edit')
     .run(function ($rootScope) {
