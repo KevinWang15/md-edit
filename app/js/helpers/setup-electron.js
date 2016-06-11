@@ -12,7 +12,7 @@ function setupElectron() {
         }
     }
 
-    const template = [
+    window.menuTemplate = [
         {
             label: 'File',
             submenu: [
@@ -62,12 +62,20 @@ function setupElectron() {
                         {
                             label: 'As PDF (Web Service)',
                             click: MenuClicked('export_pdf_web')
-                        },
+                        }
                         // {
                         //     label: 'As HTML',
                         //     click: MenuClicked('export_html')
                         // }
                     ]
+                },
+                {
+                    type: 'separator'
+                },
+                {
+                    recentFiles: true,
+                    label: 'Recent Files',
+                    submenu: []
                 },
                 {
                     type: 'separator'
@@ -126,5 +134,5 @@ function setupElectron() {
             ]
         }];
 
-    window.electron.Menu.setApplicationMenu(window.electron.Menu.buildFromTemplate(template));
+    window.electron.Menu.setApplicationMenu(window.electron.Menu.buildFromTemplate(window.menuTemplate));
 }

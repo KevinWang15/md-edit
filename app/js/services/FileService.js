@@ -8,6 +8,58 @@ angular.module('md-edit.services')
         this.currentlyOpen = 0;
         this.exitingApp = false;
 
+        if (!!localStorage['recentFiles'])
+            try {
+                this.recentFiles = JSON.parse(localStorage['recentFiles']);
+            } catch (ex) {
+                this.recentFiles = [];
+            }
+
+
+        function setRecentFilesMenu() {
+
+            var items = [];
+
+
+            self.recentFiles.forEach(function (file) {
+                items.push(
+                    {
+                        label: file,
+                        click: function () {
+                            $rootScope.$broadcast('MenuEvent', {type: 'recent_file', path: file})
+                        }
+                    }
+                );
+            });
+
+            if (items.length > 0) {
+
+                items.push(
+                    {
+                        type: 'separator'
+                    });
+
+                items.push(
+                    {
+                        label: 'Clear Recent Files',
+                        click: function () {
+                            $rootScope.$broadcast('MenuEvent', 'clear_recent_files')
+                        }
+                    });
+            }
+
+            for (var i = 0; i < window.menuTemplate[0].submenu.length; i++) {
+                if (window.menuTemplate[0].submenu[i].recentFiles) {
+                    window.menuTemplate[0].submenu[i].submenu = items;
+                    break;
+                }
+            }
+
+            window.electron.Menu.setApplicationMenu(window.electron.Menu.buildFromTemplate(window.menuTemplate));
+        }
+
+        setRecentFilesMenu();
+
         var getTitle = function (dir) {
             var tmp = dir.split(/[\/\\]/m);
             return tmp[tmp.length - 1];
@@ -18,6 +70,27 @@ angular.module('md-edit.services')
             {name: "Text files (*.txt)", extensions: ['txt']},
             {name: "All (*.*)", extensions: ['*']}
         ];
+
+        this.clearRecentFiles = function () {
+            sweetAlert({
+                title: 'Are you sure?',
+                text: 'Are you sure to clear all recent files?',
+                type: 'question',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                showCancelButton: true
+            }).then(function (confirm) {
+                if (confirm) {
+                    localStorage['recentFiles'] = '[]';
+                    self.recentFiles = [];
+                    setRecentFilesMenu();
+                    sweetAlert({
+                        title: 'Recent files cleared.',
+                        type: 'success'
+                    });
+                }
+            });
+        };
 
 
         this.newFile = function () {
@@ -36,7 +109,17 @@ angular.module('md-edit.services')
 
         this.newFile();
 
-        var _openFile = function (fPath) {
+        function pushToRecentFiles(fPath) {
+            self.recentFiles.remove(fPath);
+            self.recentFiles.unshift(fPath);
+            self.recentFiles.splice(10);
+            setRecentFilesMenu();
+        }
+
+        self._openFile = function (fPath) {
+            pushToRecentFiles(fPath);
+
+            localStorage['recentFiles'] = JSON.stringify(self.recentFiles);
 
             if (!!fPath) {
                 for (var i = 0; i < self.openFiles.length; i++) {
@@ -104,7 +187,7 @@ angular.module('md-edit.services')
 
             if (!!path)
                 path.forEach(function (path) {
-                    _openFile(path);
+                    self._openFile(path);
                 })
         };
 
@@ -178,6 +261,9 @@ angular.module('md-edit.services')
 
             if (!path)
                 return;
+
+            pushToRecentFiles(path);
+
 
             fs.writeFileSync(path, self.openFiles[i].text, {encoding: 'utf8'});
             self.openFiles[i].path = path;

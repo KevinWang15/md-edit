@@ -10,7 +10,7 @@ function createWindow() {
         win = null
     });
     win.loadURL(modalPath);
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
     win.show();
 }
 

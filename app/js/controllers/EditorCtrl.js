@@ -14,45 +14,55 @@ angular.module('md-edit')
         };
 
         $scope.$on('MenuEvent', function (_, type) {
-            switch (type) {
-                case 'save':
-                    $scope.editorDelegate.onSave();
-                    break;
-                case 'save_as':
-                    $scope.editorDelegate.onSave(true);
-                    break;
-                case 'open':
-                    FileService.openFile();
-                    break;
-                case 'close':
-                    FileService.closeCurrentFile();
-                    break;
-                case 'presentation_mode':
-                    $rootScope.presentationMode = !$rootScope.presentationMode;
-                    break;
-                case 'print':
-                    if (!$rootScope.presentationMode) {
-                        $rootScope.presentationMode = true;
-                        $scope.$apply();
-                        window.print();
-                        $rootScope.presentationMode = false;
-                    } else {
-                        window.print();
-                    }
-                    break;
-                case 'export_pdf':
-                    PdfExport.export();
-                    break;
-                case 'export_pdf_web':
-                    PdfExport.exportWebService();
-                    break;
-                case 'new':
-                    FileService.newFile();
-                    break;
-                case 'exit':
-                    FileService.exitApp();
-                    break;
+            if (typeof type == 'string') {
+                switch (type) {
+                    case 'save':
+                        $scope.editorDelegate.onSave();
+                        break;
+                    case 'save_as':
+                        $scope.editorDelegate.onSave(true);
+                        break;
+                    case 'open':
+                        FileService.openFile();
+                        break;
+                    case 'close':
+                        FileService.closeCurrentFile();
+                        break;
+                    case 'presentation_mode':
+                        $rootScope.presentationMode = !$rootScope.presentationMode;
+                        break;
+                    case 'print':
+                        if (!$rootScope.presentationMode) {
+                            $rootScope.presentationMode = true;
+                            $scope.$apply();
+                            window.print();
+                            $rootScope.presentationMode = false;
+                        } else {
+                            window.print();
+                        }
+                        break;
+                    case 'export_pdf':
+                        PdfExport.export();
+                        break;
+                    case 'export_pdf_web':
+                        PdfExport.exportWebService();
+                        break;
+                    case 'new':
+                        FileService.newFile();
+                        break;
+                    case 'clear_recent_files':
+                        FileService.clearRecentFiles();
+                        break;
+                    case 'exit':
+                        FileService.exitApp();
+                        break;
+                }
+            } else if (typeof type == 'object') {
+                if (type.type == 'recent_file') {
+                    FileService._openFile(type.path);
+                }
             }
+
             $scope.$apply();
         });
 

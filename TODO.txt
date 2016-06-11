@@ -1,12 +1,8 @@
-PDF 生成 (在线服务)
-
-PDF Table fix
 Recent Files
--------------------
+换成ACE Editor，带MD高亮的
 PDF image upload (Serverside & Clientside cache. Clientside-> localStorage, cache key + file hash)
 
 ==== 暑假再做： ====
-换成ACE Editor，带MD高亮的
 Export HTML
 Export Word
 更换主题

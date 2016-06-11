@@ -13,11 +13,8 @@
     border-top-right-radius: 4px;
     cursor: pointer;
 
-    .title {
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
+    user-select: none;
+    -webkit-user-select: none;
     &.active {
       border-top: 4px solid $primary-color;
     }
