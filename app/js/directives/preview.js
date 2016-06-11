@@ -19,7 +19,7 @@ angular.module('md-edit.components').directive('preview', function () {
 
                 scope.delegate.scrollTo = function (top) {
                     // console.log('scrolling ', top);
-                    preview.scrollTop = top;
+                    preview.scrollTop = top * scope.config.zoom;
                 };
 
                 const remote = window.electron.remote;

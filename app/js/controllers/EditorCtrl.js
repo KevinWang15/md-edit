@@ -368,6 +368,7 @@ angular.module('md-edit')
             },
             configChanged: function (config) {
                 localStorage['previewConfig'] = JSON.stringify(config);
+                onWindowResize();
             }
         };
 
