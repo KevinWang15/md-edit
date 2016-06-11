@@ -1,0 +1,80 @@
+<div class="image-upload" ng-if="visible">
+    <div class="dialog">
+        <div class="header">
+            Upload images to PDF generation web service
+            <i class="fa fa-remove" ng-click="cancel()"></i>
+        </div>
+        <div class="body">
+            <p>
+                To continue, you must upload the following images to our server.
+            </p>
+            <div class="file-list">
+                <div ng-if="!fileInfoReady" style="padding: 130px 0 0 0;font-style:italic;text-align: center;">
+                    Gathering file info..
+                </div>
+                <table class="table table-striped table-hover" ng-if="fileInfoReady">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th style="width: 150px;">File Name</th>
+                        <th>Size</th>
+                        <th style="width: 200px;">Progress</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="file in files">
+                        <td>
+                            {{$index + 1}}
+                        </td>
+                        <td>
+                            <span style="display:inline-block;max-width: 100px;overflow: hidden;text-overflow: ellipsis">
+                                {{file.name}}
+                            </span>
+                        </td>
+                        <td>
+                            <span ng-if="file.size==-1">
+                                --
+                            </span>
+                            <span ng-if="file.size!=-1">
+                                {{::( file.size/ 1000).toFixed(1)}} kB
+                            </span>
+                        </td>
+                        <td ng-if="!extSupported(file.name) && file.size!=-1">
+                            <span ng-if="file.serverHas">
+                                <i class="fa fa-remove" style="color: orangered"></i> Only PNG and JPEG are supported currently.
+                            </span>
+                        </td>
+                        <td ng-if="extSupported(file.name) && file.size!=-1">
+                            <div ng-if="dataFetchedFromServer">
+                                <div class="progress" ng-if="!file.serverHas">
+                                    <div class="progress-bar" ng-style="{width:200*file.progress}"></div>
+                                </div>
+                                <span ng-if="file.serverHas">
+                                    <i class="fa fa-check" style="color: green"></i> Already on server.
+                                </span>
+                            </div>
+                            <div ng-if="!dataFetchedFromServer">
+                                Contacting server..
+                            </div>
+                        </td>
+                        <td ng-if="file.size==-1">
+                            <i class="fa fa-remove" style="color: orangered"></i> File not found
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="footer">
+                <span style="position: absolute;left: 10px;top:7px;font-size: 12px;opacity: 0.5">
+                    Generating PDF with images is still experimental.
+                </span>
+                <button class="btn btn-primary btn-sm"
+                        ng-disabled="!fileInfoReady||uploading||!dataFetchedFromServer||hasUnsupportedExtension||fileNotFound"
+                        ng-click="upload()">
+                    Upload
+                </button>
+                <button class="btn btn-warning btn-sm" ng-click="cancel()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

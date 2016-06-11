@@ -8,7 +8,10 @@
   "description": "Native-app-like cross-platform Markdown Editor based on Electron, with live preview, code highlight, TeX math and PDF export support",
   "main": "main.js",
   "dependencies": {
-    "request": "latest"
+    "md5-file": "^3.1.0",
+    "node-upload-progress": "0.0.1",
+    "request": "latest",
+    "request-progress": "^2.0.1"
   },
   "devDependencies": {
     "gulp": "latest",

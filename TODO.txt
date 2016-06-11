@@ -1,13 +1,13 @@
-
-PDF image upload (Serverside & Clientside cache. Clientside-> localStorage, cache key + file hash)
 Ｂｕｉｌｄ！
 
 ==== 暑假再做： ====
+PDF图片生成的位置
+delete file from server
 ACE Editor->code片段高亮
 Export HTML
 Export Word
+mint代码-多页
 设置、更换主题
-改进scroll sync的算法
 局部渲染
 MathQuill集成
 最近使用的文件/自动打开

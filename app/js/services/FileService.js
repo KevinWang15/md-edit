@@ -1,7 +1,10 @@
 angular.module('md-edit.services')
     .service('FileService', function ($sce, $rootScope, $q) {
         var fs = require('fs');
+
         var self = this;
+
+        var request = require('request');
 
         this.openFiles = [];
         this.recentFiles = [];

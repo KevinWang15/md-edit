@@ -1,10 +1,10 @@
 angular.module('md-edit.services')
     .service('PdfExport', function ($sce, $rootScope, $q, FileService) {
-        const server_url = "http://139.196.50.217:13636/convert";
         var fs = require('fs');
         var request = require('request');
         var util = require('util');
         var exec = require('child_process').exec;
+        var path_module = require('path');
 
         function getOpenCommandLine() {
             switch (process.platform) {
@@ -64,77 +64,125 @@ angular.module('md-edit.services')
             if (!path) return;
 
             var cancelled = false;
-            sweetAlert({
-                allowEscapeKey: true,
-                title: 'Please wait',
-                text: 'Your request is being processed.\n (Press [Esc] to cancel)',
-                showConfirmButton: false,
-                showCancelButton: false,
-                type: 'info',
-                allowOutsideClick: false
-            }).then(function (isConfirm) {
-                if (!isConfirm) {
-                    cancelExport();
-                }
-            });
 
-            var file = FileService.openFiles[FileService.currentlyOpen];
+            var images = window.detectImages(FileService.openFiles[FileService.currentlyOpen].text);
 
-            f = fs.createWriteStream(path);
+            console.log(images);
+            var localImages = images.localImages;
+            var remoteImages = images.remoteImages;
 
-            f.on('error', function (err) {
-                cancelExport();
+
+            if (remoteImages.length > 0) {
+                var imgs = [];
+
+                remoteImages.forEach(function (img) {
+                    imgs.push(img.original);
+                });
+
                 sweetAlert({
                     allowEscapeKey: true,
                     title: 'Error',
-                    text: 'Error writing to file ' + path,
+                    text: 'Remote images not supported.\n Please download the images,\nreference them from your file system\nand try again.\n\n' + imgs.join('\n'),
                     showConfirmButton: true,
                     showCancelButton: false,
                     type: 'error',
-                    allowOutsideClick: true
+                    allowOutsideClick: false
+                }).then(function (isConfirm) {
+                    cancelExport();
                 });
-            });
-            var req = request.post(
-                {
-                    url: server_url,
-                    form: {filename: file.title, text: file.text},
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                return;
+            }
+
+            var localImagesUploaded = $q.defer();
+
+            if (localImages.length == 0)
+                localImagesUploaded.resolve();
+            else {
+                $rootScope.$broadcast('imageUploadRequired', {data: localImages, deferred: localImagesUploaded});
+            }
+
+            localImagesUploaded.promise.then(function (data) {
+
+                sweetAlert({
+                    allowEscapeKey: true,
+                    title: 'Please wait',
+                    text: 'Your document is being generated.\n (Press [Esc] to cancel)',
+                    showConfirmButton: false,
+                    showCancelButton: false,
+                    type: 'info',
+                    allowOutsideClick: false
+                }).then(function (isConfirm) {
+                    if (!isConfirm) {
+                        cancelExport();
                     }
-                }, function (err, httpResponse, body) {
-                    if (!cancelled) {
-                        if (!!body && body.length > 4 && body.substr(0, 4) == '%PDF') {
-                            sweetAlert({
-                                allowEscapeKey: true,
-                                title: 'Done',
-                                text: 'Your file has been generated',
-                                showConfirmButton: true,
-                                showCancelButton: false,
-                                type: 'success',
-                                allowOutsideClick: true
-                            });
-                            f.end();
-                            exec(getOpenCommandLine() + ' ' + path);
-                        } else {
-                            sweetAlert({
-                                allowEscapeKey: true,
-                                title: 'Error',
-                                text: 'Bad response from server', //+'\n\n' + body,
-                                showConfirmButton: true,
-                                showCancelButton: false,
-                                type: 'error',
-                                allowOutsideClick: true
-                            });
-                            f.end();
-                            fs.unlink(path);
+                });
+
+                var file = FileService.openFiles[FileService.currentlyOpen];
+                var fileText = file.text;
+
+                if (!!data) {
+                    data.forEach(function (item) {
+                        console.log(item);
+                        // fileText = fileText.replace(new RegExp(search.replaceAll('\\', '\\\\'), 'g'), replacement)
+                        fileText = fileText.replaceAll(item.originalMd, item.originalMd.replaceAll(item.original, 'upload/' + item.hash + path_module.extname(item.original)));
+                    });
+
+                }
+                f = fs.createWriteStream(path);
+
+                f.on('error', function (err) {
+                    cancelExport();
+                    sweetAlert({
+                        allowEscapeKey: true,
+                        title: 'Error',
+                        text: 'Error writing to file ' + path,
+                        showConfirmButton: true,
+                        showCancelButton: false,
+                        type: 'error',
+                        allowOutsideClick: true
+                    });
+                });
+                var req = request.post(
+                    {
+                        url: window.server_url + 'convert',
+                        form: {filename: file.title, text: fileText},
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
                         }
-                    }
+                    }, function (err, httpResponse, body) {
+                        if (!cancelled) {
+                            if (!!body && body.length > 4 && body.substr(0, 4) == '%PDF') {
+                                sweetAlert({
+                                    allowEscapeKey: true,
+                                    title: 'Done',
+                                    text: 'Your file has been generated',
+                                    showConfirmButton: true,
+                                    showCancelButton: false,
+                                    type: 'success',
+                                    allowOutsideClick: true
+                                });
+                                f.end();
+                                exec(getOpenCommandLine() + ' ' + path);
+                            } else {
+                                sweetAlert({
+                                    allowEscapeKey: true,
+                                    title: 'Error',
+                                    text: 'Bad response from server', //+'\n\n' + body,
+                                    showConfirmButton: true,
+                                    showCancelButton: false,
+                                    type: 'error',
+                                    allowOutsideClick: true
+                                });
+                                f.end();
+                                fs.unlink(path);
+                            }
+                        }
+                    });
+
+                req.on('response', function (res) {
+                    if (cancelled) return;
+                    res.pipe(f);
                 });
-
-            req.on('response', function (res) {
-                if (cancelled) return;
-                res.pipe(f);
             });
-
         };
     });

@@ -10,12 +10,51 @@ function setupMarked() {
         }
     }
 
+    window.detectImages = function (md) {
+        var localImages = [];
+        var remoteImages = [];
+        var original = renderer.image;
+
+        renderer.image = function (href, title, text, original) {
+            console.log(original);
+
+            if (!/^((http|https|ftp):[\\\/])/m.test(href.trim())) {
+                if (/^(\w:|\/)/.test(href)) {
+                    //Absolute
+                    localImages.push({
+                        path: href,
+                        original: href,
+                        originalMd: original
+                    });
+                } else {
+                    //Relative
+                    localImages.push({
+                        path: getPath($rootScope.fs.openFiles[$rootScope.fs.currentlyOpen].path) + href,
+                        original: href,
+                        originalMd: original
+                    });
+                }
+            } else {
+                remoteImages.push({
+                    path: href,
+                    original: href,
+                    originalMd: original
+                });
+            }
+        };
+
+        window.marked(md);
+
+        console.log(remoteImages);
+
+        renderer.image = original;
+        return {localImages: localImages, remoteImages: remoteImages};
+    };
+
     renderer.image = function (href, title, text) {
         if (!$rootScope)
             $rootScope = angular.element($('html')).scope();
-        if (!$rootScope
-        // || $rootScope.fs.currentlyOpen >= $rootScope.fs.openFiles.length
-        ) {
+        if (!$rootScope) {
             return '<img src="' + href + '" alt="' + text + '"/>';
         }
         if (/^((\w|http|https|ftp):[\\\/]|\/)/m.test(href)) {
