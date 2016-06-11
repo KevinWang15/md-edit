@@ -63,11 +63,11 @@ angular.module('md-edit.services')
             $timeout(function () {
                 var elements = $('h1', $preview);
                 for (var i = 0; i < elements.length; i++) {
-                    console.log(elements[i]);
+                    // console.log(elements[i]);
                     self.eleblocks.push(elements[i].offsetTop - elements[i].offsetHeight);
                 }
                 self.eleblocks.push($('.preview-container', $preview).height());
-                console.log(self.mdblocks, self.eleblocks);
+                // console.log(self.mdblocks, self.eleblocks);
             });
 
             return deferred.promise;

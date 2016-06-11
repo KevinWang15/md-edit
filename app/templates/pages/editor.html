@@ -1,11 +1,16 @@
 <tabs></tabs>
 <div class="page-editor">
-    <div class="editor-div">
+    <div class="separator" ng-style="{left:separatorPos.left}">
+        <div class="line"></div>
+    </div>
+
+    <div class="editor-div" ng-style="{width:separatorPos.left}">
         <div style="width: 100%;height: 100%;"
              ng-change="onAceChange()" ng-model="$root.fs.openFiles[$root.fs.currentlyOpen].text"
              ui-ace="aceConfig"></div>
     </div>
-    <div class="preview-div">
+
+    <div class="preview-div" ng-style="{width:separatorPos.windowWidth-separatorPos.left}">
         <preview ng-model="$root.fs.openFiles[$root.fs.currentlyOpen].html" delegate="previewDelegate"
                  config="previewConfig"></preview>
     </div>

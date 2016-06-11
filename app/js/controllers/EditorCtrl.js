@@ -3,7 +3,32 @@ angular.module('md-edit')
         $scope.editorConfig = JSON.parse(localStorage['editorConfig'] || null) || {fontSize: 20};
         $scope.previewConfig = JSON.parse(localStorage['previewConfig'] || null) || {zoom: 1};
         $rootScope.scrollSync = true;
+
         var self = this;
+
+        var $separator = $('.separator', $element);
+
+        var draggingSeparator = false;
+
+        $separator.bind('mousedown', function () {
+            draggingSeparator = true;
+        });
+
+        $element.bind('mousemove', function (e) {
+            if (draggingSeparator) {
+                var editorWidth = $('.page-editor').width();
+                if (e.pageX < 60 || e.pageX > editorWidth - 60) return;
+                $scope.separatorPos.left = e.pageX;
+                $scope.separatorPos.percentage = $scope.separatorPos.left / editorWidth;
+                onWindowResize();
+                $scope.safeApply();
+            }
+        });
+
+        $(window).mouseup(function () {
+            draggingSeparator = false;
+        });
+
         $scope.$on('EditorScopeApply', function () {
             $scope.$apply();
         });
@@ -18,6 +43,29 @@ angular.module('md-edit')
                 this.$apply(fn);
             }
         };
+        function calcSeparatorPos() {
+            $scope.separatorPos.windowWidth = $('.page-editor').width();
+            $scope.separatorPos.left = $scope.separatorPos.windowWidth * $scope.separatorPos.percentage;
+            $scope.safeApply();
+        }
+
+        var resizing = false;
+
+        function resize() {
+            var html = marked(FileService.openFiles[FileService.currentlyOpen].text);
+            MdStruct.buildMap(FileService.openFiles[FileService.currentlyOpen].text, html, $preview);
+        }
+
+        function onWindowResize() {
+            calcSeparatorPos();
+            if (!resizing) {
+                resizing = true;
+                $timeout(function () {
+                    resizing = false;
+                    resize();
+                }, 500);
+            }
+        }
 
         var editorSession;
 
@@ -115,22 +163,18 @@ angular.module('md-edit')
                 syncScroll();
             });
 
-            var resizing = false;
 
-            function resize() {
-                var html = marked(FileService.openFiles[FileService.currentlyOpen].text);
-                MdStruct.buildMap(FileService.openFiles[FileService.currentlyOpen].text, html, $preview);
-            }
+            $scope.separatorPos = {
+                windowWidth: 0,
+                percentage: 0.5,
+                left: -10000
+            };
 
-            $(window).resize(function () {
-                if (!resizing) {
-                    resizing = true;
-                    $timeout(function () {
-                        resizing = false;
-                        resize();
-                    }, 500);
-                }
-            });
+
+            calcSeparatorPos();
+
+
+            $(window).resize(onWindowResize);
 
             $scope.$on('fileSwitched', function () {
                 resize();
@@ -166,6 +210,7 @@ angular.module('md-edit')
             showGutter: true,
             mode: 'markdown',
             theme: 'github',
+            showPrintMargin: false,
             onLoad: aceLoaded
         };
 
@@ -180,6 +225,12 @@ angular.module('md-edit')
             if (typeof type == 'string') {
                 var i;
                 switch (type) {
+                    case 'save':
+                        FileService.saveCurrentFile();
+                        break;
+                    case 'save_as':
+                        FileService.saveCurrentFile(true);
+                        break;
                     case 'undo':
                         self._editor.getSession().getUndoManager().undo();
                         break;

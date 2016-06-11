@@ -18,7 +18,7 @@ angular.module('md-edit.components').directive('preview', function () {
                 };
 
                 scope.delegate.scrollTo = function (top) {
-                    console.log('scrolling ', top);
+                    // console.log('scrolling ', top);
                     preview.scrollTop = top;
                 };
 

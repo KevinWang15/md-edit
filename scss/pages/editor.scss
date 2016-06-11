@@ -4,10 +4,23 @@
   .editor-div, .preview-div {
     padding: 0 !important;
     height: 100%;
-    width: 50%;
+    //width: 50%;
     display: inline-block;
     box-sizing: border-box;
     float: left;
+  }
+  .separator {
+    position: absolute;
+    top: 35px;
+    padding: 0 4px;
+    cursor: w-resize;
+    height: 100%;
+    z-index: 1000;
+    .line {
+      background: #dddddd;
+      width: 1px;
+      height: calc(100% - 58px);
+    }
   }
   .editor-div {
     margin-right: -1px;
