@@ -1,0 +1,23 @@
+{
+  "name": "md-edit-md-to-pdf",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KevinWang15/md-edit-md-to-pdf"
+  },
+  "description": "Markdown to pdf web service for md-editor, based on pandoc and xelatex.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Kevin Wang",
+  "license": "MIT",
+  "devDependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4"
+  },
+  "dependencies": {
+    "connect-busboy": "0.0.2",
+    "md5-file": "^3.1.0"
+  }
+}
