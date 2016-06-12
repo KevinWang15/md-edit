@@ -15,4 +15,4 @@ function createWindow() {
 }
 
 electron.Menu.setApplicationMenu(new electron.Menu());
-electron.app.on('ready', createWindow);
+electron.app.on('ready', createWindow); 

@@ -14,6 +14,20 @@ angular.module('md-edit')
             draggingSeparator = true;
         });
 
+        var element = $($element)[0];
+
+        element.ondragover = element.ondragend = element.ondragleave = function () {
+            return false;
+        };
+
+        element.ondrop = function (e) {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            FileService._openFile(file.path);
+            return false;
+        };
+
+
         $element.bind('mousemove', function (e) {
             if (draggingSeparator) {
                 var editorWidth = $('.page-editor').width();
