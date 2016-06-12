@@ -11,6 +11,7 @@ angular.module('md-edit.services')
         this.currentlyOpen = 0;
         this.exitingApp = false;
 
+
         if (!!localStorage['recentFiles'])
             try {
                 this.recentFiles = JSON.parse(localStorage['recentFiles']);
@@ -276,6 +277,18 @@ angular.module('md-edit.services')
             self.openFiles[i].saved = true;
             $rootScope.$broadcast('EditorScopeApply');
         };
+
+        const ipc = require('electron').ipcRenderer;
+        const reply = ipc.sendSync('query-argv');
+        console.log(reply);
+
+        reply.forEach(function (argv) {
+            fs.exists(argv, function (exists) {
+                if (exists) {
+                    self._openFile(argv);
+                }
+            });
+        });
 
         $rootScope.fs = this;
     });

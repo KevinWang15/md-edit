@@ -2,6 +2,11 @@ var electron = require('electron');
 var BrowserWindow = electron.BrowserWindow;
 var path = require('path');
 
+const ipc = require('electron').ipcMain;
+
+ipc.on('query-argv', function (event, arg) {
+    event.returnValue = process.argv.splice(1);
+});
 
 function createWindow() {
     const modalPath = path.join('file://', __dirname, 'app/index.html');
@@ -10,7 +15,7 @@ function createWindow() {
         win = null
     });
     win.loadURL(modalPath);
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
     win.show();
 }
 

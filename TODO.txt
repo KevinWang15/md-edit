@@ -1,6 +1,8 @@
-Ｂｕｉｌｄ！
-
 ==== 暑假再做： ====
+KaTeX Bug? : $\sigma_{A<100}(r)$
+User Tasks (Windows)
+http://electron.atom.io/docs/tutorial/desktop-environment-integration/#user-tasks-windows
+PDF Generation: Pandoc mode & wkhtmltopdf mode
 PDF图片生成的位置
 delete file from server
 ACE Editor->code片段高亮
