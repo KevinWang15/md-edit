@@ -37,6 +37,12 @@ data.forEach(function (item) {
 app.post('/file-presence', bodyParser.urlencoded({extended: true}), function (req, res) {
 
     var ret = {};
+
+    if (!req.body.list || !req.body) {
+        res.send('{}');
+        return;
+    }
+
     req.body.list.forEach(function (file) {
         ret[file] = !!hasHash[file];
     });

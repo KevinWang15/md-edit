@@ -24,6 +24,10 @@
     padding-bottom: 4px !important;
   }
 
+  .separator {
+    display: none !important;
+  }
+
   @media screen {
     * {
       overflow: scroll !important;

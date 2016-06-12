@@ -5,7 +5,11 @@ var path = require('path');
 const ipc = require('electron').ipcMain;
 
 ipc.on('query-argv', function (event, arg) {
-    event.returnValue = process.argv.splice(1);
+    if (process.argv.length >= 2 && path.basename(process.argv[1]).toLowerCase() == 'main.js') {
+        event.returnValue = process.argv.splice(2);
+    } else {
+        event.returnValue = process.argv.splice(1);
+    }
 });
 
 function createWindow() {
@@ -14,8 +18,9 @@ function createWindow() {
     win.on('closed', function () {
         win = null
     });
+    console.log('asd');
     win.loadURL(modalPath);
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
     win.show();
 }
 
