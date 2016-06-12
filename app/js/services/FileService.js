@@ -280,7 +280,6 @@ angular.module('md-edit.services')
 
         const ipc = require('electron').ipcRenderer;
         const reply = ipc.sendSync('query-argv');
-        console.log(reply);
 
         reply.forEach(function (argv) {
             fs.exists(argv, function (exists) {

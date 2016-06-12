@@ -1,5 +1,6 @@
 {
   "name": "md-edit",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KevinWang15/md-edit"
@@ -7,6 +8,8 @@
   "description": "Native-app-like cross-platform Markdown Editor based on Electron, with live preview, code highlight, TeX math and PDF export support",
   "main": "main.js",
   "dependencies": {
+    "md5-file": "^3.1.0",
+    "request": "latest"
   },
   "devDependencies": {
     "gulp": "latest",
@@ -25,8 +28,7 @@
     "readline-sync": "^1.4.3"
   },
   "scripts": {
-    "restarter": "node restarter.js",
-    "build": "node build.js"
+    "restarter": "node restarter.js"
   },
   "author": "Kevin Wang",
   "license": "MIT"

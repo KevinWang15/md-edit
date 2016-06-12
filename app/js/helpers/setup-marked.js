@@ -44,9 +44,6 @@ function setupMarked() {
         };
 
         window.marked(md);
-
-        console.log(remoteImages);
-
         renderer.image = original;
         return {localImages: localImages, remoteImages: remoteImages};
     };

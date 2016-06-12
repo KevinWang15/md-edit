@@ -67,7 +67,6 @@ angular.module('md-edit.services')
 
             var images = window.detectImages(FileService.openFiles[FileService.currentlyOpen].text);
 
-            console.log(images);
             var localImages = images.localImages;
             var remoteImages = images.remoteImages;
 
@@ -167,7 +166,7 @@ angular.module('md-edit.services')
                                 sweetAlert({
                                     allowEscapeKey: true,
                                     title: 'Error',
-                                    text: 'Bad response from server', //+'\n\n' + body,
+                                    text: 'Bad response from server',
                                     showConfirmButton: true,
                                     showCancelButton: false,
                                     type: 'error',

@@ -9,13 +9,13 @@ ipc.on('query-argv', function (event, arg) {
 });
 
 function createWindow() {
-    const modalPath = path.join('file://', __dirname, 'app/index.html');
+    const modalPath = path.join('file://', __dirname, 'index.html');
     var win = new BrowserWindow({width: 1366, height: 768});
     win.on('closed', function () {
         win = null
     });
     win.loadURL(modalPath);
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
     win.show();
 }
 
