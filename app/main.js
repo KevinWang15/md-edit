@@ -18,7 +18,6 @@ function createWindow() {
     win.on('closed', function () {
         win = null
     });
-    console.log('asd');
     win.loadURL(modalPath);
     // win.webContents.openDevTools();
     win.show();
