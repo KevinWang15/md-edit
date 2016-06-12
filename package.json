@@ -1,6 +1,6 @@
 {
   "name": "md-edit",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KevinWang15/md-edit"
@@ -9,7 +9,7 @@
   "main": "main.js",
   "dependencies": {
     "md5-file": "^3.1.0",
-    "request": "latest",
+    "request": "latest"
   },
   "devDependencies": {
     "gulp": "latest",
